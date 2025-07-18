@@ -1,0 +1,95 @@
+import mongoose, { Types } from 'mongoose';
+import { ICooksProfile, IExperience } from './cooks.interface';
+
+const ExperienceSchema = new mongoose.Schema<IExperience>(
+  {
+    companyName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    position: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    workPeriod: {
+      from: {
+        type: Date,
+        required: true,
+      },
+      to: {
+        type: Date,
+        required: false,
+      },
+    },
+  },
+  { _id: false },
+);
+
+const cooksProfileSchema = new mongoose.Schema<ICooksProfile>(
+  {
+    user: {
+      type: Types.ObjectId,
+      ref: 'user',
+    },
+    fullName: {
+      type: String,
+      required: [true, 'full name is required!'],
+    },
+    city: {
+      type: String,
+      required: [true, 'city is required'],
+    },
+    adress: {
+      type: String,
+      required: [true, 'adress is required'],
+    },
+    specialties: {
+      type: [String],
+      required: [true, 'specialists is required'],
+    },
+    yearsOfExperience: {
+      type: String,
+      required: [true, 'year of experience is required'],
+    },
+    experienceLevel: {
+      type: String,
+      required: [true, 'experience level is required'],
+    },
+    experienceList: {
+      type: [ExperienceSchema],
+      default: [],
+    },
+
+    cv: {
+      type: String,
+      required: [true, 'cv is required'],
+    },
+
+    profileImage: {
+      type: String,
+      required: [false, 'profile image is optional'],
+      default: '',
+    },
+    foodImages: {
+      type: [String],
+      required: [true, 'food image is required'],
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+const cookProfile = mongoose.model<ICooksProfile>('cookProfile', cooksProfileSchema);
+
+export default cookProfile;

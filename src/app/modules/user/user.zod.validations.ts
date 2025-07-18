@@ -1,14 +1,8 @@
 import { z } from 'zod';
+import { ENUM_USER_ROLE } from '../../../enums/user-role';
 
 const registerUserValidationSchema = z.object({
   body: z.object({
-    // name: z
-    //   .string({
-    //     required_error: 'Name is required',
-    //     invalid_type_error: 'Name must be a string',
-    //   })
-    //   .min(2, { message: 'name must be at least 2 character' })
-    //   .max(30, { message: 'name must be less than 30 character' }),
 
     email: z
       .string({
@@ -17,12 +11,10 @@ const registerUserValidationSchema = z.object({
       })
       .email({ message: 'invalid email adresss' }),
 
-    phone: z
-      .string({
-        required_error: 'Phone is required',
-      })
-      .min(11, { message: 'phone must be at least 11 digits' })
-      .regex(/^\d+$/, 'Phone number must only contain digits!'),
+    role: z.enum([ENUM_USER_ROLE.COOKS, ENUM_USER_ROLE.RESTAURANT], {
+      required_error: 'Role is required',
+      invalid_type_error: 'Role must be either cooks or restaurant',
+    }),
 
     password: z
       .string({
@@ -32,12 +24,11 @@ const registerUserValidationSchema = z.object({
   }),
 });
 
-
 const userValidationZodSchema = {
-    registerUserValidationSchema
-}
+  registerUserValidationSchema,
+};
 
-export default userValidationZodSchema
+export default userValidationZodSchema;
 
 /*
 

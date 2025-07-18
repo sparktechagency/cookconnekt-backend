@@ -1,24 +1,25 @@
-
-
 import { Document, Types } from 'mongoose';
 
 interface IUser extends Document {
+  role: any;
   _id: Types.ObjectId;
   email: string;
-  phone: string;
   password: string;
   status: string;
   isEmailVerified: boolean;
+  isProfileCompleted: boolean;
   verification?: {
     code: string;
     expireDate: Date;
   };
   isDeleted: boolean;
-  profile: Types.ObjectId | null
-  role: string,
+  profile: {
+    id: Types.ObjectId | null;
+    role: string;
+  };
   createdAt: Date;
   updatedAt: Date;
-  comparePassword(userPlanePassword: string): boolean
+  comparePassword(userPlanePassword: string): boolean;
   compareVerificationCode(userPlaneCode: string): boolean;
 }
 

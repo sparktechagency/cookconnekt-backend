@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import mongoose, { Types } from 'mongoose';
 import validator from 'validator';
-import { ENUM_USER_STATUS } from '../../../enums/user-role';
+import { ENUM_USER_ROLE, ENUM_USER_STATUS } from '../../../enums/user-role';
 import IUser from './user.interface';
 
 export const userSchema = new mongoose.Schema<IUser>(
@@ -17,18 +17,24 @@ export const userSchema = new mongoose.Schema<IUser>(
         message: (props: { value: string }) => `${props.value} is not a valid email!`,
       },
     },
-    phone: {
-      type: String,
-      unique: true,
-      required: true,
-    },
     password: {
       type: String,
       trim: true,
-      minlength: [8, 'Password must be at least 8 characters'],
       required: [true, 'Password is required!'],
+      minlength: [8, 'Password must be at least 8 characters'],
+      validate: {
+        validator: function (value) {
+          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(value);
+        },
+        message: 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character',
+      },
     },
+
     isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isProfileCompleted: {
       type: Boolean,
       default: false,
     },
@@ -54,13 +60,17 @@ export const userSchema = new mongoose.Schema<IUser>(
       type: Boolean,
       default: false,
     },
-    role: {
-      type: String,
-      required: [true, 'role is required']
-    },
     profile: {
-      type: Types.ObjectId,
-      ref: 'profile',
+      id: {
+        type: Types.ObjectId,
+        refPath: 'profile.role',
+        default: null,
+      },
+      role: {
+        type: String,
+        enum: [ENUM_USER_ROLE.COOKS, ENUM_USER_ROLE.RESTAURANT],
+        required: false,
+      },
     },
   },
   {

@@ -9,7 +9,7 @@ import config from '../config';
 
 import Subscription from '../app/modules/subscriptionModule/subscription.model';
 import { PaymentSourceType, PaymentStatus } from '../app/modules/subscriptionPurchaseModule/subscriptionPurchase.interface';
-import User from '../app/modules/user-module/user.model';
+import User from '../app/modules/user/user.model';
 import handleAsync from '../shared/handleAsync';
 import sendMail from '../utilities/sendEmail';
 

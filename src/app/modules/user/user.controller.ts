@@ -3,23 +3,23 @@ import { StatusCodes } from 'http-status-codes';
 import handleAsync from '../../../shared/handleAsync';
 import sendResponse from '../../../shared/sendResponse';
 import CustomError from '../../errors';
-import { userServices } from './services/index';
 import User from './user.model';
+import userServices from './user.services';
 
 // register user
 const registerController = handleAsync(async (req: Request, res: Response) => {
 
-  const files = req.files as unknown as Record<string, Express.Multer.File[]>;
-  console.log("files",files)
-  const userData = JSON.parse(req.body.data);
+  // const files = req.files as unknown as Record<string, Express.Multer.File[]>;
+  // console.log("files",files)
+  const userData = req.body;
   console.log(userData)
-  const user = await User.findOne({ $or: [{ email: userData.email, phone: userData.phone }] });
+  const user = await User.findOne({email:userData.email});
 
   if (user) {
     throw new CustomError.BadRequestError('email or phone already exist');
   }
 
-  const result = await userServices.createUser(userData,files);
+  const result = await userServices.createUser(userData);
 
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,

@@ -33,7 +33,7 @@ export const uploadFile = () => {
         fs.mkdirSync(uploadPath, { recursive: true });
       }
 
-      // ✅ Don't check file type here — leave it to fileFilter
+    
       cb(null, uploadPath);
     },
 
