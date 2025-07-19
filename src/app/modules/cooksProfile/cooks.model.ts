@@ -45,6 +45,17 @@ const cooksProfileSchema = new mongoose.Schema<ICooksProfile>(
       type: String,
       required: [true, 'adress is required'],
     },
+    phone: {
+      type: String,
+      unique: true,
+      required: true,
+      validate: {
+        validator: function (v) {
+          return /^(\+?212)[ ]?\d{3}[ ]?\d{3}[ ]?\d{3}$/.test(v) || /^(\+?212)\d{9}$/.test(v);
+        },
+        message: (props) => `${props.value} is not a valid Australian mobile phone number!`,
+      },
+    },
     specialties: {
       type: [String],
       required: [true, 'specialists is required'],
@@ -89,6 +100,7 @@ const cooksProfileSchema = new mongoose.Schema<ICooksProfile>(
     timestamps: true,
   },
 );
+
 
 const cookProfile = mongoose.model<ICooksProfile>('cookProfile', cooksProfileSchema);
 

@@ -8,19 +8,17 @@ import userServices from './user.services';
 
 // register user
 const registerController = handleAsync(async (req: Request, res: Response) => {
-
-  // const files = req.files as unknown as Record<string, Express.Multer.File[]>;
-  // console.log("files",files)
   const userData = req.body;
-  console.log(userData)
-  const user = await User.findOne({email:userData.email});
+  const role = userData.role;
 
+  const user = await User.findOne({ email: userData.email });
+  console.log(user)
   if (user) {
     throw new CustomError.BadRequestError('email or phone already exist');
   }
 
-  const result = await userServices.createUser(userData);
-
+  const result = await userServices.createUser(userData, role);
+  console.log(result)
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
     status: 'success',

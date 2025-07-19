@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
+import { ENUM_USER_ROLE } from '../../../enums/user-role';
 
 interface IUser extends Document {
-  role: any;
   _id: Types.ObjectId;
   email: string;
   password: string;
@@ -15,7 +15,7 @@ interface IUser extends Document {
   isDeleted: boolean;
   profile: {
     id: Types.ObjectId | null;
-    role: string;
+    role: ENUM_USER_ROLE.COOKS | ENUM_USER_ROLE.RESTAURANT;
   };
   createdAt: Date;
   updatedAt: Date;

@@ -5,6 +5,12 @@ export interface IRestaurantsProfile extends Document {
   restaurantName: string;
   businessType: string;
   city: string;
+  address: string;
+  socialLink: string;
+  businessLogo: string;
+  banner: string;
+  businessEmail: string;
+  phone:string;
   location: {
     lat: number;
     lon: number;

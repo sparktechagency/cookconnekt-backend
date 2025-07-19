@@ -19,6 +19,7 @@ export interface ICooksProfile extends Document {
   experienceList: IExperience[];
   city: string;
   adress: string;
+  phone: string;
   cv: string;
   profileImage: string;
   foodImages: string[];
