@@ -6,6 +6,7 @@ dotenv.config({
   path: path.join(process.cwd(), '.env'),
 });
 
+
 const envSchema = z.object({
   NODE_ENV: z.enum(['production', 'development', 'test']).default('development'),
   PORT: z.preprocess((val) => Number(val), z.number().default(5003)),

@@ -10,6 +10,8 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 
+console.log('Current working directory:', process.cwd());
+
 const runServer = async () => {
   await mongoose.connect(config.mongodb_url as string);
   console.log('\x1b[36mDatabase connection successfull\x1b[0m');

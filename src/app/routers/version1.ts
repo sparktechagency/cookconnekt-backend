@@ -4,6 +4,7 @@ import userAuthRouter from '../modules/auth/userAuth/user.auth.routes';
 import adminAuthRouter from '../modules/auth/adminAuth/admin.auth.routes';
 import cooksRouter from '../modules/cooksProfile/cooks.routes';
 import restaurantRouter from '../modules/restaurantProfile/restaurant.routes';
+import jobRouter from '../modules/job/job.routes';
 
 const routersVersionOne = express.Router();
 
@@ -27,6 +28,10 @@ const appRouters = [
   {
     path: '/restaurant',
     router: restaurantRouter,
+  },
+  {
+    path: '/job',
+    router: jobRouter,
   },
 ];
 

@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 interface Iadress {
   name: string;
@@ -8,6 +8,7 @@ interface Iadress {
   };
 }
 export interface IJobs extends Document {
+  user: Types.ObjectId,
   title: string;
   description: string;
   contactType: string;

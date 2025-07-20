@@ -1,9 +1,12 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 import { IJobs } from './job.interface';
 
-
-const JobSchema = new Schema<IJobs>(
+const JobSchema = new mongoose.Schema<IJobs>(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
     title: { type: String, required: [true, 'Job title is required'] },
     description: { type: String, required: [true, 'Job description is required'] },
     contactType: { type: String, required: [true, 'Contact type is required'] },
@@ -22,7 +25,7 @@ const JobSchema = new Schema<IJobs>(
     vacancy: { type: Number, required: [true, 'Vacancy count is required'] },
     accommodation: { type: Boolean, required: [true, 'Accommodation info is required'] },
     requirements: { type: String, required: [true, 'Requirements are required'] },
-    isNewPublish: { type: Boolean, default:true},
+    isNewPublish: { type: Boolean, default: true },
     benefits: { type: String, required: [true, 'Benefits info is required'] },
     offerVisibility: {
       type: String,
@@ -31,7 +34,8 @@ const JobSchema = new Schema<IJobs>(
     },
     deadline: { type: Date, required: [true, 'Application deadline is required'] },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const Job = model<IJobs>('Job', JobSchema);
+const Job = mongoose.model<IJobs>('Job', JobSchema);
+export default Job;

@@ -1,7 +1,6 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
-import fileUpload from 'express-fileupload';
 import { StatusCodes } from 'http-status-codes';
 import path from 'path';
 import config from './config';
