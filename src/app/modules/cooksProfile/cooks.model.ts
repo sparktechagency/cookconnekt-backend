@@ -31,7 +31,7 @@ const cooksProfileSchema = new mongoose.Schema<ICooksProfile>(
   {
     user: {
       type: Types.ObjectId,
-      ref: 'user',
+      ref: 'User',
     },
     fullName: {
       type: String,
@@ -51,9 +51,9 @@ const cooksProfileSchema = new mongoose.Schema<ICooksProfile>(
       required: true,
       validate: {
         validator: function (v) {
-          return /^(\+?212)[ ]?\d{3}[ ]?\d{3}[ ]?\d{3}$/.test(v) || /^(\+?212)\d{9}$/.test(v);
+          return /^\d{9}$/.test(v);
         },
-        message: (props) => `${props.value} is not a valid Australian mobile phone number!`,
+        message: (props) => `${props.value} is not a valid 10-digit phone number!`,
       },
     },
     specialties: {
@@ -63,6 +63,10 @@ const cooksProfileSchema = new mongoose.Schema<ICooksProfile>(
     yearsOfExperience: {
       type: String,
       required: [true, 'year of experience is required'],
+    },
+    currentPostion: {
+      type: String,
+      required: [true, 'current position is required'],
     },
     experienceLevel: {
       type: String,
@@ -76,6 +80,11 @@ const cooksProfileSchema = new mongoose.Schema<ICooksProfile>(
     cv: {
       type: String,
       required: [true, 'cv is required'],
+    },
+    rating: {
+      type: Number,
+      required: false,
+      default: 0,
     },
 
     profileImage: {
@@ -100,7 +109,6 @@ const cooksProfileSchema = new mongoose.Schema<ICooksProfile>(
     timestamps: true,
   },
 );
-
 
 const cookProfile = mongoose.model<ICooksProfile>('cookProfile', cooksProfileSchema);
 

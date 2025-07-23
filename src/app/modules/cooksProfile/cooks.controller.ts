@@ -34,6 +34,39 @@ const completeCooksProfile = handleAsync(async (req: Request, res: Response) => 
   });
 });
 
+const getCookProfiles = handleAsync(async(req:Request,res:Response)=>{
+  const cookProfiles = await cooksServices.getCookProfiles(req.query);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    status: 'success',
+    message: 'User profile completed succesfully',
+    data: cookProfiles,
+  });
+})
+
+const getSpecificCookDetails = handleAsync(async(req:Request,res:Response)=>{
+  const cookProfiles = await cooksServices.getCookProfileDetails(req.params.id);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    status: 'success',
+    message: 'User specific details retrieved succesfully',
+    data: cookProfiles,
+  });
+})
+
+const getFilteredCookProfiles = handleAsync(async(req:Request,res:Response)=>{
+  const cookProfiles = await cooksServices.retrieveFilteredCookProfiles(req.query);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    status: 'success',
+    message: 'User profile completed succesfully',
+    data: cookProfiles,
+  });
+})
+
 export default {
   completeCooksProfile,
+  getFilteredCookProfiles,
+  getCookProfiles,
+  getSpecificCookDetails
 };

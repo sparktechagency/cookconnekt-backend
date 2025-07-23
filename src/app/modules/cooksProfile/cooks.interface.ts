@@ -24,6 +24,7 @@ export interface ICooksProfile extends Document {
   profileImage: string;
   foodImages: string[];
   isVerified: boolean;
+  rating:number;
   isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;

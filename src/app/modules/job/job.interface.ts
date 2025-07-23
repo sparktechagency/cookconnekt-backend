@@ -14,7 +14,9 @@ export interface IJobs extends Document {
   contactType: string;
   desiredExperience: number;
   desiredSpecialities: string[];
+  city: string;
   address: Iadress;
+  position: string;
   desiredAvailibilty: string;
   proposedSalary: string;
   typeOfEstablishment: string;
