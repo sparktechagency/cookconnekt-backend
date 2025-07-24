@@ -1,30 +1,59 @@
-import { INotification } from './notification.interface';
+
+import { Types } from 'mongoose';
+import QueryBuilder from '../../../builder/QueryBuilder';
 import Notification from './notification.model';
 
-// service for create new notification
-const createNotification = async (data: Partial<INotification>) => {
-    return await Notification.create(data);
+const getAllNotifications = async (query: Record<string, any>, userId: string) => {
+  const baseQuery = Notification.find({ receiver: userId });
+
+  const builder = new QueryBuilder(baseQuery, query);
+
+  builder.search(['title', 'message']).filter().sort().paginate().fields();
+
+  const data = await builder.modelQuery.exec();
+
+  const meta = await builder.countTotal();
+
+  return {
+    meta: {
+      page: meta.page,
+      limit: meta.limit,
+      total: meta.total,
+      totalPages: meta.totalPage,
+    },
+    data,
+  };
 };
 
-// service for get all notifications by consumer id
-const getAllNotification = async (consumerId: string) => {
-    return await Notification.find({ consumer: consumerId }).sort({ createdAt: -1 });
+const markNotificationAsSeen = async (notificationId: string) => {
+  const updated = await Notification.findByIdAndUpdate(
+    notificationId,
+    { isSeen: true },
+    { new: true }
+  );
+  return updated;
 };
 
-// service for dismissed notification
-const dismissNotification = async (notificationId: string) => {
-    return await Notification.updateOne({ _id: notificationId }, { isDismissed: true });
+
+const getAllUnseenNotificationCount = async (userId: string) => {
+  const result = await Notification.aggregate([
+    {
+      $match: {
+        receiver: new Types.ObjectId(userId),
+        isSeen: false,
+      },
+    },
+    {
+      $count: 'unseenCount',
+    },
+  ]);
+
+  return result[0]?.unseenCount || 0;
 };
 
-//service for delete all notifications by consumer id
-const deleteAllNotifications = async (consumerId: string) => {
-    console.log(consumerId);
-    return await Notification.deleteMany({ consumer: consumerId });
-};
 
 export default {
-    createNotification,
-    getAllNotification,
-    dismissNotification,
-    deleteAllNotifications,
+  getAllNotifications,
+  markNotificationAsSeen,
+  getAllUnseenNotificationCount
 };

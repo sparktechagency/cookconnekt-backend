@@ -1,16 +1,12 @@
-import { Document, Types } from 'mongoose';
+import { Types } from 'mongoose';
+import { ENUM_NOTIFICATION_TYPE } from '../../../enums/notification-type';
 
-export interface INotification extends Document {
-    consumer: Types.ObjectId;
-    content: {
-        title: string;
-        message: string;
-        source: {
-            type: string;
-            id: Types.ObjectId;
-        };
-    };
-    isDismissed: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+
+export interface INotification {
+    title: string;
+    message: string;
+    isSeen: boolean;
+    receiver: Types.ObjectId;
+    type: (typeof ENUM_NOTIFICATION_TYPE)[keyof typeof ENUM_NOTIFICATION_TYPE];
+    redirectId?: string;
 }

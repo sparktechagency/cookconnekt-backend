@@ -1,23 +1,41 @@
-import mongoose from 'mongoose';
+import mongoose, { model, Schema} from 'mongoose';
+import { ENUM_NOTIFICATION_TYPE } from '../../../enums/notification-type';
 import { INotification } from './notification.interface';
 
-const notificationSchema = new mongoose.Schema<INotification>(
-    {
-        consumer: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
-        content: {
-            title: { type: String, required: true },
-            message: { type: String, required: true },
-            source: {
-                type: { type: String, required: true },
-                id: { type: mongoose.Schema.Types.ObjectId, refPath: 'source.type' },
-            },
-        },
-        isDismissed: { type: Boolean, default: false },
+const notificationSchema = new Schema<INotification>(
+  {
+    title: {
+      type: String,
+      required: true,
     },
-    {
-        timestamps: true,
+    message: {
+      type: String,
+      required: true,
     },
+    isSeen: {
+      type: Boolean,
+      default: false,
+    },
+    receiver: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: Object.values(ENUM_NOTIFICATION_TYPE),
+      required: true,
+    },
+    redirectId: {
+      type: String,
+      default: null,
+    },
+  },
+
+  {
+    timestamps: true,
+  },
 );
 
-const Notification = mongoose.model<INotification>('notification', notificationSchema);
+const Notification = model<INotification>('Notification', notificationSchema);
+
 export default Notification;

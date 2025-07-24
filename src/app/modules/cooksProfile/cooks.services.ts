@@ -15,6 +15,7 @@ const createCooksProfile = async (data: ICooksProfile, user: any) => {
   return result;
 };
 
+
 const getCookProfiles = async (
   query: Record<string, any>,
 ): Promise<{
@@ -74,6 +75,7 @@ const getCookProfiles = async (
     data,
   };
 };
+
 
 const retrieveFilteredCookProfiles = async (
   query: Record<string, any>,
@@ -148,6 +150,7 @@ const retrieveFilteredCookProfiles = async (
   };
 };
 
+
 const getCookProfileDetails = async (id: string) => {
   const result = await User.aggregate([
     {
@@ -179,6 +182,8 @@ const getCookProfileDetails = async (id: string) => {
 
   return result[0];
 };
+
+
 export default {
   createCooksProfile,
   retrieveFilteredCookProfiles,

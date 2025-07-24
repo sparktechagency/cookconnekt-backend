@@ -6,6 +6,7 @@ import cooksRouter from '../modules/cooksProfile/cooks.routes';
 import restaurantRouter from '../modules/restaurantProfile/restaurant.routes';
 import jobRouter from '../modules/job/job.routes';
 import applyJobRouter from '../modules/appliedJob/apply.job.routes';
+import notificationRouter from '../modules/notification/notification.routes';
 
 const routersVersionOne = express.Router();
 
@@ -37,6 +38,10 @@ const appRouters = [
     {
     path: '/apply',
     router: applyJobRouter,
+  },
+   {
+    path: '/notification',
+    router: notificationRouter,
   },
 ];
 

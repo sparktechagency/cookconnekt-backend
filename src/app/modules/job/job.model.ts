@@ -12,7 +12,7 @@ const JobSchema = new mongoose.Schema<IJobs>(
     contactType: { type: String, required: [true, 'Contact type is required'] },
     desiredExperience: { type: Number, required: [true, 'Desired experience is required'] },
     desiredSpecialities: [{ type: String, required: [true, 'At least one speciality is required'] }],
-    city: {type:String, required: [true, 'city is required']},
+    city: { type: String, required: [true, 'city is required'] },
     address: {
       name: { type: String, required: [true, 'Address name is required'] },
       location: {
@@ -28,6 +28,7 @@ const JobSchema = new mongoose.Schema<IJobs>(
     accommodation: { type: Boolean, required: [true, 'Accommodation info is required'] },
     requirements: { type: String, required: [true, 'Requirements are required'] },
     isNewPublish: { type: Boolean, default: true },
+    isApproved: { type: Boolean, default: false },
     benefits: { type: String, required: [true, 'Benefits info is required'] },
     offerVisibility: {
       type: String,

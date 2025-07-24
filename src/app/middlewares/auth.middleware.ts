@@ -5,7 +5,8 @@ import { ENUM_USER_ROLE } from '../../enums/user-role';
 import jwtHelpers from '../../helpers/jwtHelpers';
 import CustomError from '../errors';
 import adminServices from '../modules/admin/admin.services';
-import { userServices } from '../modules/user/services';
+import userServices from '../modules/user/user.services';
+
 
 const getUserByRole = async (payload: any) => {
   const { id, role } = payload;

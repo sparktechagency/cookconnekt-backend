@@ -24,6 +24,7 @@ export interface IJobs extends Document {
   accommodation: boolean;
   requirements: string;
   isNewPublish: boolean;
+  isApproved: boolean;
   benefits: string;
   offerVisibility: 'public' | 'anonymous';
   deadline: Date;
