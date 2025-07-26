@@ -55,10 +55,11 @@ const userLogin = handleAsync(async (req: Request, res: Response) => {
     name: user.profile.name,
     email: user.email,
     _id: user._id,
-    profile: user.profile,
+    role: user.profile.role,
     accessToken,
     refreshToken,
     isEmailVerified: user.isEmailVerified,
+    isProfileCompleted: user.isProfileCompleted
   };
 
   sendResponse(res, {

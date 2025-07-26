@@ -6,23 +6,19 @@ import fs from 'fs';
 import multer from 'multer';
 
 export const uploadFile = () => {
-  const allowedFileTypesForImages = [
-    'image/jpeg',
-    'image/png',
-    'image/jpg',
-    'image/webp',
-    'image/svg+xml',
-  ];
-   
+  const allowedFileTypesForImages = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/svg+xml'];
+
   // Storage
   const storage = multer.diskStorage({
     destination: function (_req, file, cb) {
       let uploadPath = '';
-      console.log(file)
+      console.log(file);
       if (file.fieldname === 'profile_image') {
         uploadPath = 'uploads/profile_image';
       } else if (file.fieldname === 'food_images') {
         uploadPath = 'uploads/food_images';
+      } else if (file.fieldname === 'banner_image') {
+        uploadPath = 'uploads/banner_image';
       } else if (file.fieldname === 'cv') {
         uploadPath = 'uploads/cv';
       } else {
@@ -33,7 +29,6 @@ export const uploadFile = () => {
         fs.mkdirSync(uploadPath, { recursive: true });
       }
 
-    
       cb(null, uploadPath);
     },
 
@@ -45,7 +40,7 @@ export const uploadFile = () => {
 
   // File filter
   const fileFilter = (_req: Request, file: any, cb: any) => {
-    const allowedFieldnames = ['profile_image', 'food_images', 'cv'];
+    const allowedFieldnames = ['profile_image', 'food_images', 'cv', 'banner_image'];
 
     if (!file.fieldname) {
       return cb(null, true);
@@ -76,6 +71,7 @@ export const uploadFile = () => {
     fileFilter: fileFilter,
   }).fields([
     { name: 'profile_image', maxCount: 1 },
+    { name: 'banner_image', maxCount: 1 },
     { name: 'food_images', maxCount: 10 },
     { name: 'cv', maxCount: 1 },
   ]);

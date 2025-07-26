@@ -3,14 +3,18 @@ import { StatusCodes } from 'http-status-codes';
 
 interface ICustomError extends Error {
   statusCode?: number;
+  status?: string;
   code?: number;
+  stack?: string;
   keyValue?: Record<string, string>;
   errors?: Record<string, { message: string }>;
 }
 
 const devErrorResponse = (error: ICustomError, res: Response): Response => {
   return res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({
-    error: error.message,
+    statusCode: error.statusCode,
+    status: error.status,
+    message: error.message,
     errorTrace: error.stack,
   });
 };

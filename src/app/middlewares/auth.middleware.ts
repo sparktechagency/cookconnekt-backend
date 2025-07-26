@@ -7,7 +7,6 @@ import CustomError from '../errors';
 import adminServices from '../modules/admin/admin.services';
 import userServices from '../modules/user/user.services';
 
-
 const getUserByRole = async (payload: any) => {
   const { id, role } = payload;
 

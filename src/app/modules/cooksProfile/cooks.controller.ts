@@ -17,7 +17,7 @@ const completeCooksProfile = handleAsync(async (req: Request, res: Response) => 
 
   const user = await User.findById(id);
   if (!user) {
-    throw new CustomError.BadRequestError('user not found');
+    throw new CustomError.NotFoundError('user not found');
   }
   const updatedData = {
     ...data,
