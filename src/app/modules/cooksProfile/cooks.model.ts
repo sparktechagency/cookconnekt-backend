@@ -110,6 +110,6 @@ const cooksProfileSchema = new mongoose.Schema<ICooksProfile>(
   },
 );
 
-const cookProfile = mongoose.model<ICooksProfile>('cookProfile', cooksProfileSchema);
+const CookProfile = mongoose.model<ICooksProfile>('cook', cooksProfileSchema);
 
-export default cookProfile;
+export default CookProfile;

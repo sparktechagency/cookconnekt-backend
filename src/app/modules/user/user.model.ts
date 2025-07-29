@@ -68,8 +68,8 @@ export const userSchema = new mongoose.Schema<IUser>(
       },
       role: {
         type: String,
-        enum: [ENUM_USER_ROLE.COOKS, ENUM_USER_ROLE.RESTAURANT],
-        required: false,
+        enum: [ENUM_USER_ROLE.COOK, ENUM_USER_ROLE.RESTAURANT],
+        required: true,
       },
     },
   },
@@ -113,7 +113,7 @@ userSchema.index({
   email: 'text',
 });
 
-const User = mongoose.model<IUser>('user', userSchema);
+const User = mongoose.model<IUser>('User', userSchema);
 export default User;
 
 /*

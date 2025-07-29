@@ -24,7 +24,6 @@ const getAdminByEmail = async (email: string) => {
 
 // service for update specific admin
 const updateSpecificAdmin = async (id: string, data: Partial<IAdmin>) => {
-    console.log(data)
   return await Admin.updateOne({ _id: id }, data, {
     runValidators: true,
   });

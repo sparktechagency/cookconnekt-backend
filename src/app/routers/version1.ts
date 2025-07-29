@@ -10,6 +10,7 @@ import restaurantRouter from '../modules/restaurantProfile/restaurant.routes';
 import userRouter from '../modules/user/user.routes';
 import aboutRouter from '../modules/aboutUs/about.routes';
 import contactRouter from '../modules/contact/contact.routes';
+import adminRouter from '../modules/admin/admin.routes';
 
 const routersVersionOne = express.Router();
 
@@ -33,6 +34,10 @@ const appRouters = [
   {
     path: '/restaurant',
     router: restaurantRouter,
+  },
+  {
+    path: '/admin',
+    router: adminRouter,
   },
   {
     path: '/job',

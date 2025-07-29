@@ -2,10 +2,11 @@ import mongoose from 'mongoose';
 import CustomError from '../../errors';
 import User from '../user/user.model';
 import { ICooksProfile } from './cooks.interface';
-import cookProfile from './cooks.model';
+import CookProfile from './cooks.model';
+
 
 const createCooksProfile = async (data: ICooksProfile, user: any) => {
-  const result = await cookProfile.create(data);
+  const result = await CookProfile.create(data);
   if (!result) {
     throw new CustomError.BadRequestError('failed to create cook profile');
   }
@@ -43,11 +44,24 @@ const getCookProfiles = async (
     ];
   }
 
-  const result = await cookProfile.aggregate([
+  const result = await CookProfile.aggregate([
     { $match: matchStage },
+     {
+      $lookup: {
+        from: 'users',
+        localField: 'user',
+        foreignField: '_id',
+        as: 'user',
+      },
+    },
+
+    {
+      $unwind: '$user',
+    },
     {
       $project: {
         _id: 1,
+        email: "$user.email",
         fullName: 1,
         city: 1,
         yearsOfExperience: 1,
@@ -115,9 +129,11 @@ const retrieveFilteredCookProfiles = async (
   if (andConditions.length > 0) {
     matchStage.$and = andConditions;
   }
-
-  const result = await cookProfile.aggregate([
+  
+  const result = await CookProfile.aggregate([
     { $match: matchStage },
+   
+
     {
       $project: {
         _id: 1,

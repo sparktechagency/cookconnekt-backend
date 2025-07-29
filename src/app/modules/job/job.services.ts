@@ -1,6 +1,5 @@
-import { IJobs } from "./job.interface";
-import Job from "./job.model";
-
+import { IJobs } from './job.interface';
+import Job from './job.model';
 
 const createJob = async (data: Partial<IJobs>) => {
   const job = await Job.create(data);
@@ -29,21 +28,31 @@ const getAllJobs = async (
     matchStage.$or = [
       { city: { $regex: searchTerm, $options: 'i' } },
       { position: { $regex: searchTerm, $options: 'i' } },
+      { 'restaurant.name': { $regex: searchTerm, $options: 'i' } }, 
     ];
   }
 
   const result = await Job.aggregate([
+    
+    {
+      $lookup: {
+        from: 'restaurantprofiles',
+        localField: 'user',
+        foreignField: 'user',
+        as: 'restaurant',
+      },
+    },
+    { $unwind: '$restaurant' },
     { $match: matchStage },
     {
       $project: {
         _id: 1,
+        restaurantName: '$restaurant.restaurantName',
         name: 1,
         city: 1,
         position: 1,
         vacancy: 1,
         createdAt: 1,
-        email: 0,
-        password: 0,
       },
     },
     {
@@ -68,6 +77,7 @@ const getAllJobs = async (
   };
 };
 
+// retrieve filterred job
 const retrievefilteredJob = async (
   query: Record<string, any>,
 ): Promise<{
@@ -84,19 +94,37 @@ const retrievefilteredJob = async (
   const skip = (page - 1) * limit;
 
   const matchStage: any = {};
-
   const andConditions: any[] = [];
 
-  if (query.city) {
-    andConditions.push({ city: { $regex: query.city, $options: 'i' } });
+  function isNonEmptyString(value: any) {
+    return typeof value === 'string' && value.trim() !== '';
   }
 
-  if (query.position) {
-    andConditions.push({ position: { $regex: query.position, $options: 'i' } });
+  if (isNonEmptyString(query.searchTerm)) {
+    andConditions.push({
+      $or: [
+        { title: { $regex: query.searchTerm.trim(), $options: 'i' } },
+        { position: { $regex: query.searchTerm.trim(), $options: 'i' } },
+        { city: { $regex: query.searchTerm.trim(), $options: 'i' } },
+        { specialties: { $regex: query.searchTerm.trim(), $options: 'i' } },
+      ],
+    });
   }
 
-  if (query.contactType) {
-    andConditions.push({ specialties: { $regex: query.contactType, $options: 'i' } });
+  if (isNonEmptyString(query.city)) {
+    andConditions.push({ city: { $regex: query.city.trim(), $options: 'i' } });
+  }
+
+  if (isNonEmptyString(query.position)) {
+    andConditions.push({ position: { $regex: query.position.trim(), $options: 'i' } });
+  }
+
+  if (isNonEmptyString(query.contactType)) {
+    andConditions.push({ specialties: { $regex: query.contactType.trim(), $options: 'i' } });
+  }
+
+  if (isNonEmptyString(query.accommodation)) {
+    andConditions.push({ accommodation: { $regex: query.accommodation.trim(), $options: 'i' } });
   }
 
   if (andConditions.length > 0) {
@@ -115,7 +143,7 @@ const retrievefilteredJob = async (
         yearsOfExperience: 1,
         createdAt: 1,
         deadline: 1,
-        isNewPublish: 1
+        isNewPublish: 1,
       },
     },
     {
@@ -140,7 +168,6 @@ const retrievefilteredJob = async (
   };
 };
 
-
 const getJobById = async (id: string): Promise<IJobs | null> => {
   return await Job.findById(id);
 };
@@ -154,10 +181,10 @@ const deleteJob = async (id: string): Promise<IJobs | null> => {
 };
 
 export default {
-    createJob,
-    getAllJobs,
-    retrievefilteredJob,
-    getJobById,
-    updateJob,
-    deleteJob
-}
+  createJob,
+  getAllJobs,
+  retrievefilteredJob,
+  getJobById,
+  updateJob,
+  deleteJob,
+};

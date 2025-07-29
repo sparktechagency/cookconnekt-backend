@@ -3,7 +3,7 @@ import User from '../../user/user.model';
 // service for get user by email
 const getUserByEmail = async (email: string) => {
   return await User.findOne({ email }).populate({
-    path: 'profile',
+    path: 'profile.id',
     select: '-password -verification -__v',
   });
 };

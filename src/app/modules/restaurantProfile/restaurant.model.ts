@@ -6,7 +6,7 @@ const restaurantProfileSchema = new mongoose.Schema<IRestaurantsProfile>(
   {
     user: {
       type: Types.ObjectId,
-      ref: 'user',
+      ref: 'User',
     },
     restaurantName: {
       type: String,
@@ -73,9 +73,9 @@ const restaurantProfileSchema = new mongoose.Schema<IRestaurantsProfile>(
   },
 );
 
-const restaurantProfile = mongoose.model<IRestaurantsProfile>('restaurantProfile', restaurantProfileSchema);
+const RestaurantProfile = mongoose.model<IRestaurantsProfile>('restaurant', restaurantProfileSchema);
 
-export default restaurantProfile;
+export default RestaurantProfile;
 
 
 /*

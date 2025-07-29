@@ -9,6 +9,7 @@ interface Iadress {
 }
 export interface IJobs extends Document {
   user: Types.ObjectId,
+  restaurant: Types.ObjectId,
   title: string;
   description: string;
   contactType: string;

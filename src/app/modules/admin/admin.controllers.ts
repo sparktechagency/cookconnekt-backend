@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
-import adminServices from './admin.services';
-import CustomError from '../../errors';
-import sendResponse from '../../../shared/sendResponse';
 import { StatusCodes } from 'http-status-codes';
 import handleAsync from '../../../shared/handleAsync';
-
-
+import sendResponse from '../../../shared/sendResponse';
+import CustomError from '../../errors';
+import adminServices from './admin.services';
 
 // controller for create new admin
 const createAdmin = handleAsync(async (req: Request, res: Response) => {
@@ -55,7 +53,6 @@ const getSpecificAdmin = handleAsync(async (req: Request, res: Response) => {
   });
 });
 
-
 // controller for update specific admin
 const updateSpecificAdmin = handleAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -64,6 +61,10 @@ const updateSpecificAdmin = handleAsync(async (req: Request, res: Response) => {
     throw new CustomError.BadRequestError("You can't update adminId, email, password directly!");
   }
 
+  const admin = await adminServices.getSpecificAdmin(id);
+  if (!admin) {
+    throw new CustomError.NotFoundError('No admin found!');
+  }
   const updatedAdmin = await adminServices.updateSpecificAdmin(id, data);
 
   if (!updatedAdmin.modifiedCount) {
@@ -80,6 +81,10 @@ const updateSpecificAdmin = handleAsync(async (req: Request, res: Response) => {
 // controller for delete specific admin
 const deleteSpecificAdmin = handleAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
+  const isAdminExist = await adminServices.getSpecificAdmin(id);
+  if (!isAdminExist) {
+    throw new CustomError.NotFoundError('No admin found!');
+  }
   const admin = await adminServices.deleteSpecificAdmin(id);
   if (!admin.deletedCount) {
     throw new CustomError.BadRequestError('Failed to delete admin!');
@@ -92,15 +97,13 @@ const deleteSpecificAdmin = handleAsync(async (req: Request, res: Response) => {
   });
 });
 
-
 //update user status
 
 // export const updateUserStatus = async (req: Request, res: Response) => {
- 
-//     const { id } = req.params; 
-//     const { status } = req.body; 
 
-    
+//     const { id } = req.params;
+//     const { status } = req.body;
+
 //     if (!['active', 'blocked' ,'disabled',].includes(status)) {
 //       throw new CustomError.BadRequestError('Invalid status value');
 //     }
@@ -123,8 +126,6 @@ const deleteSpecificAdmin = handleAsync(async (req: Request, res: Response) => {
 //     });
 
 // };
-
-
 
 // const updateUserInfoOrStatusChanged = async (req: Request, res: Response) => {
 
@@ -186,13 +187,8 @@ const deleteSpecificAdmin = handleAsync(async (req: Request, res: Response) => {
 //     //   message: 'User info updated successfully',
 //     //   data: result,
 //     // });
-  
+
 // };
-
-
-
-
-
 
 export default {
   createAdmin,

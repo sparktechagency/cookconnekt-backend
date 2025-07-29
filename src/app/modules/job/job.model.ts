@@ -5,7 +5,13 @@ const JobSchema = new mongoose.Schema<IJobs>(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
+      ref: 'User',
+      required: true
+    },
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'RestaurantProfile',
+      required: true
     },
     title: { type: String, required: [true, 'Job title is required'] },
     description: { type: String, required: [true, 'Job description is required'] },

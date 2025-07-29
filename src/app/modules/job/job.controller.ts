@@ -26,6 +26,18 @@ const getAllJobs = handleAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getFilterredJobs = handleAsync(async (req: Request, res: Response) => {
+  console.log(req.query)
+  const job = await jobServices.retrievefilteredJob(req.query);
+  const message = job.data.length < 1 ? "no data found" : 'job data has been retrieved succesfully' 
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    status: 'success',
+    message: message,
+    data: job,
+  });
+});
+
 const getJobById = handleAsync(async (req: Request, res: Response) => {
   const job = await jobServices.getJobById(req.params.id);
   sendResponse(res, {
@@ -60,6 +72,7 @@ export default {
   createJob,
   getAllJobs,
   getJobById,
+  getFilterredJobs,
   updateJob,
   deleteJob,
 };

@@ -16,7 +16,7 @@ const userLogin = handleAsync(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const user: any = await userAuthServices.getUserByEmail(email);
-
+  console.log(user)
   if (!user) throw new CustomError.BadRequestError('user not found');
 
   if (user.isDeleted) {
@@ -52,7 +52,7 @@ const userLogin = handleAsync(async (req: Request, res: Response) => {
   );
 
   const userInfo = {
-    name: user.profile.name,
+    name: user.profile.id.fullName,
     email: user.email,
     _id: user._id,
     role: user.profile.role,

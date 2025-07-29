@@ -1,4 +1,5 @@
 import config from '../../../config';
+import { ENUM_USER_ROLE } from '../../../enums/user-role';
 
 import registrationEmailTemplate from '../../../mailTemplate/registrationTemplate';
 import IdGenerator from '../../../utilities/idGenerator';
@@ -12,13 +13,16 @@ const createUser = async (data: IUser,role:string) => {
   const expireDate = new Date();
   const expireTime = 10;
   expireDate.setMinutes(expireDate.getMinutes() + expireTime);
-
+  
+  const model = role === ENUM_USER_ROLE.COOK ? 'CookProfile' : 'RestaurantProfile'
   const userData = {
     email: data.email,
     password: data.password,
     profile: {
-      role: role
+      role: role,
+      model: model,
     },
+    
     verification: {
       code: verificationCode,
       expireDate,

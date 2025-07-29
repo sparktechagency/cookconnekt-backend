@@ -15,7 +15,7 @@ interface IUser extends Document {
   isDeleted: boolean;
   profile: {
     id: Types.ObjectId | null;
-    role: ENUM_USER_ROLE.COOKS | ENUM_USER_ROLE.RESTAURANT;
+    role: ENUM_USER_ROLE.COOK | ENUM_USER_ROLE.RESTAURANT;
   };
   createdAt: Date;
   updatedAt: Date;
